@@ -1,0 +1,53 @@
+---Membuat Database Baru---
+CREATE DATABASE peserta;
+
+---Menggunakan Database yang telah dibuat---
+USE peserta;
+
+---Membuat Table cities---
+CREATE TABLE cities (
+	    id INT AUTO_INCREMENT PRIMARY KEY,
+	    name VARCHAR(50) NOT NULL
+);
+
+---Membuat Table biodata---
+CREATE TABLE biodata (
+	    id INT AUTO_INCREMENT PRIMARY KEY,
+	    full_name VARCHAR(50) NOT NULL,
+        place_of_birth_id INT,
+	    place_of_birth VARCHAR(50),
+	    FOREIGN KEY (place_of_birth_id) REFERENCES cities (id),
+	    date_of_birth DATE,
+	    phone_number VARCHAR (15),
+	    last_education ENUM ('SMP','SMA','S1','S2'),
+	    religion ENUM ('Islam','Kristen','Katolik'),
+	    address TEXT,
+	    hobby SET ('Renang','Mancing','Game','Gibah','Programming')		
+);
+
+---Menambahkan data ke table cities---
+INSERT INTO cities VALUES
+('1','Jakarta');
+INSERT INTO cities VALUES
+('2','Bandung');
+INSERT INTO cities VALUES
+('3','Padang');
+
+---Menambahkan data ke table biodata---
+INSERT INTO biodata VALUES
+('1','Lucinta Luna','1','Jakarta','12 July 1992','081111','S1','Kristen','Jakarta','Renang,Game');
+INSERT INTO biodata VALUES
+('2','Satrio','1','Jakarta','21 July 2001','082222','SMA','Islam','Jakarta','Ghibah,Programming');
+INSERT INTO biodata VALUES
+('3','Syahrini','2','Bandung','01 January 1989','083333','S1','Islam','Bandung');
+
+---Menampilkan List Biodata Beserta Tempat Lahir(Relasi table biodata dan tablle cities)---
+SELECT cities.id, cities.name, biodata.id, biodata.full_name, biodata.place_of_birth, biodata.date_of_birth, biodata.phone_number, biodata.last_education, biodata.religion, biodata.address, biodata.hobby
+FROM biodata INNER JOIN cities
+ON biodata.place_of_birth_id=cities.id;
+
+---Mengedit data biodata besera id biodata---
+UPDATE biodata SET full_name='Andre Taulani' WHERE id='1';
+
+---Menghapus data biodata berdasar id biodata
+DELETE FROM biodata WHERE id='2';
